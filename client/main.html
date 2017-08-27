@@ -1,0 +1,221 @@
+<head>
+  <title>IDRONECT</title>
+    <style>
+        body { margin:0; padding:0; }
+        #map { position:absolute; top:53px; bottom:0; width:100%; }
+        .modal-open .datepicker {
+            z-index: 1600 !important;
+        }
+        .modal-open .bootstrap-timepicker-widget {
+            z-index: 1600 !important;
+        }
+    </style>
+</head>
+
+<body>
+  	<div>{{> info}}</div>
+	   <div id='map'></div>
+</body>
+
+<template name="calendar">
+    <form>
+       <div class="form-group">
+          <label for="myInput">Input name</label>
+          <div class="input-group datetimepicker">
+             <span class="input-group-addon"><i class="fa fa-calendar"> <span class="glyphicon glyphicon-calendar"></span></i></span>
+             <input name="idInput" id="idInput" class="set-due-date form-control" type="text"/>
+           </div>
+        </div>
+    </form>
+</template>
+
+<template name="info">
+	<nav class="navbar navbar-default">
+	  <div class="container-fluid">
+	    <!-- Brand and toggle get grouped for better mobile display -->
+	    <div class="navbar-header">
+	      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+	        <span class="sr-only">Toggle navigation</span>
+	        <span class="icon-bar"></span>
+	        <span class="icon-bar"></span>
+	        <span class="icon-bar"></span>
+	      </button>
+	      <a class="navbar-brand" href="#">IDRONECT</a>
+	    </div>
+
+	    <!-- Collect the nav links, forms, and other content for toggling -->
+	    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+	      <ul class="nav navbar-nav" id="calendar2" >
+          {{#if currentUser}}
+	           <li><a href="#" id="calendar3"  data-toggle="modal" data-target="#myModal2">Calendar</a></li>
+             <div class="modal fade" id="myModal2" role="dialog">
+               <div class="modal-dialog">
+                 <!-- Modal content-->
+                 <div class="modal-content">
+                   <div class="modal-header">
+                     <button type="button" class="close" data-dismiss="modal">&times;</button>
+                     <h4 class="modal-title">Schedule flight</h4>
+                   </div>
+                   <div class="modal-body">
+                      <div class="container">
+                        <!--Description-->
+                        <div class="row">
+                          <div class='col-sm-6' id="mjs">
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class='col-sm-6'>
+                            <div class="form-group">
+                                <label for="myInput">Title</label>
+                                <input type="text" id="inTittle" class="form-control" placeholder="Write a tittle">
+                                <label for="myInput">Description</label>
+                                <textarea id="inTextArea" class="form-control" placeholder="Write a litle description"></textarea>
+                            </div>
+                          </div>
+                        </div>
+
+                        <!--Pick date-->
+                        <div class="row">
+                          <div class='col-sm-3'>
+                            <div class="form-group">
+                              <label for="myInput">Since</label>
+                              <div class='input-group date' id='datetimepicker1'>
+                                <input id="inDateSince" type='text' class="form-control" />
+                                <span class="input-group-addon">
+                                  <span class="glyphicon glyphicon-calendar"></span>
+                              </span>
+                              </div>
+                            </div>
+                          </div>
+                        <div class='col-sm-3'>
+                          <div class="form-group">
+                            <label for="myInput">Until</label>
+                            <div class='input-group date' id='datetimepicker2'>
+                              <input id="inDateUntil" type='text' class="form-control" />
+                              <span class="input-group-addon">
+                                <span class="glyphicon glyphicon-calendar"></span>
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                      <script type="text/javascript">
+                        $(function () {
+                          $('#datetimepicker1').datetimepicker();
+                          $('#datetimepicker2').datetimepicker();
+                          });
+                      </script>
+                      </div>
+
+                      <div class="row">
+                        <div class='col-sm-6'>
+                          <label for="myInput">Add zone's</label>
+                          <div class="container" id="zonesCalendar">
+                          </div>
+                        </div>
+                      </div>
+
+                      <!--Send info to database-->
+                      <div class = "row">
+                        <div class='col-sm-2'></div>
+                        <div class='col-sm-4'>
+                          <button type="button" class="btn btn-default" id="mySchedule" data-toggle="collapse" data-target="#demo">My Calendar</button>
+                          <button type="button" class="btn btn-default" id="newSchedule">Save</button>
+                        </div>
+                      </div>
+                        <div class = "row">
+                          <div class='col-sm-8'>
+                            <div id="demo" class="collapse">
+
+                              <div class="table-responsive">
+                                <table class="table">
+                                  <thead>
+                                    <tr>
+                                      <th>#</th>
+                                      <th>Tittle</th>
+                                      <th>Descripcion</th>
+                                      <th>Since</th>
+                                      <th>Until</th>
+                                      <th>Zone(s)</th>
+                                    </tr>
+                                  </thead>
+                                  <tbody id="calendarTable">
+                                  </tbody>
+                                </table>
+                                </div>
+
+                            </div>
+                          </div>
+                        </div>
+
+
+
+                    </div>
+                  </div>
+
+                  <div class="modal-footer">
+                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                  </div>
+
+                 </div>
+               </div>
+             </div>
+          {{/if}}
+			<li class="dropdown">
+        {{#if currentUser}}
+	        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Views<span class="caret"></span></a>
+        {{/if}}
+            <ul id="mapsViews" class="dropdown-menu">
+	            <li><a href="#" id="view3D" value="3d">3d</a></li>
+	            <li role="separator" class="divider"></li>
+	            <li><a href="#" value="basic">basic</a></li>
+	            <li role="separator" class="divider"></li>
+	            <li><a href="#" value="streets">streets</a></li>
+	            <li role="separator" class="divider"></li>
+	            <li><a href="#" value="light">light</a></li>
+	            <li role="separator" class="divider"></li>
+	            <li><a href="#" value="dark">dark</a></li>
+	            <li role="separator" class="divider"></li>
+	            <li><a href="#" value="satellite">satellite</a></li>
+	          </ul>
+
+	        </li>
+
+	        <li id="zoneMenuFa" class="dropdown">
+            {{#if currentUser}}
+	           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Zones<span class="caret"></span></a>
+            {{/if}}
+              <ul id="zoneMenu" class="dropdown-menu">
+	            </ul>
+	        </li>
+        {{#if currentUser}}
+	        <li><a href="#"  data-toggle="modal" data-target="#myModal">Help</a></li>
+          <div class="modal fade" id="myModal" role="dialog">
+            <div class="modal-dialog">
+              <!-- Modal content-->
+              <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal">&times;</button>
+                  <h4 class="modal-title">Help</h4>
+                </div>
+                <div class="modal-body">
+                  <p><strong>Calendar:</strong></p><p>It allows programming the flight zone.</p>
+                  <p><strong>Views</strong></p><p>Change the way the map is displayed.</p>
+                  <p><strong>Zones:</strong></p><p>Displays all stored zones (Contains options).</p>
+                  <p><strong>Draw:</strong></p><p>Allow to draw above the map, to stop drawing must double click on the last point to draw, then proceed to store the name and description of the newly drawn area.</p>
+                  <p><strong>Delete Draw:</strong></p><p>Deletes the selected drawn area.</p>
+                </div>
+                    <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        {{/if}}
+        </ul>
+	      <ul class="nav navbar-nav navbar-right">
+	        <li><a href="#">{{> loginButtons align="right"}}</a></li>
+	      </ul>
+	    </div><!-- /.navbar-collapse -->
+	  </div><!-- /.container-fluid -->
+	</nav>
+</template>

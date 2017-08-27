@@ -1,0 +1,21 @@
+<html>
+<head>
+    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.35.1/mapbox-gl.js'></script>
+    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.35.1/mapbox-gl.css' rel='stylesheet' />
+</head>
+<body>
+    <div>hola iframe soy jd</div>
+    <div id='map'></div>
+</body>
+<script type="text/javascript">
+	mapboxgl.accessToken = 'pk.eyJ1IjoiamNhcm1vbmEiLCJhIjoiY2oxanJld3pwMDI1azMzb2E2aXBkM3NodiJ9.FpYqGz5lfjBv8KLA7DsjJQ';
+		console.log("Objeto mapbox:\n",mapboxgl);
+
+	var map = new mapboxgl.Map({
+    container: 'map', // container id
+    style: 'mapbox://styles/mapbox/satellite-v9', //hosted style id
+    center: [-91.874, 42.760], // starting position
+    zoom: 12 // starting zoom
+});	
+</script>
+</html>
